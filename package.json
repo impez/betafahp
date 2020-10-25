@@ -1,0 +1,47 @@
+{
+  "_args": [
+    [
+      "fahpbeta@1.0.0",
+      "/home/impez/Desktop/fahp-master"
+    ]
+  ],
+  "_from": "fahpbeta@1.0.0",
+  "_id": "fahpbeta@1.0.0",
+  "_inBundle": false,
+  "_integrity": "sha512-wiNRhZoyITrofpsyov27irPwSOweN3MOpkK2lS5iBTszYYq4uIz6NGOYc8vd8jM7cdI/Ae00V8RxpcVG5HQoEg==",
+  "_location": "/fahpbeta",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "fahpbeta@1.0.0",
+    "name": "fahpbeta",
+    "escapedName": "fahpbeta",
+    "rawSpec": "1.0.0",
+    "saveSpec": null,
+    "fetchSpec": "1.0.0"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/fahpbeta/-/fahpbeta-1.0.0.tgz",
+  "_spec": "1.0.0",
+  "_where": "/home/impez/Desktop/fahp-master",
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/impez/betafahp/issues"
+  },
+  "description": "",
+  "homepage": "https://github.com/impez/betafahp#readme",
+  "license": "ISC",
+  "main": "script.js",
+  "name": "fahpbeta",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/impez/betafahp.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
+}
