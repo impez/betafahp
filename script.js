@@ -20,7 +20,7 @@ const getMatrixOfOnes = size => {
     for(let i=0; i<size; i++){
       matrix[i] = [];
       for(let j=0; j<size; j++){
-          matrix[i][j] = [1,1,1];
+          matrix[i][j] = [1];
       }
     }
   
@@ -135,6 +135,14 @@ const getMatrixWeightsAndCr = (matrix) => {
     }
 }
 
+const mulArrayTo3 = x => {
+    const newArr = [];
+    for(let i=0; i<3; i++){
+        newArr.push(x)  
+    }
+    return newArr.flat(1)
+}
+
 const generateDataBasedOnFuzzyMatrixNtimes = (matrix, n) => {
     const data = [];
     const avgWs = [];
@@ -184,6 +192,7 @@ class FuzzyAHP{
             weights: [],
             consistencyRatios: []
         }
+        this.rankingData = {};
 
         this.resetMatrixes();
     }
@@ -202,14 +211,14 @@ class FuzzyAHP{
         if(criteriaComparison !== undefined){
             for(let i=0; i<this.variantsMatrix[criteriaComparison].length; i++){
                 for(let j=i+1; j<this.variantsMatrix[criteriaComparison].length; j++){
-                    this.variantsMatrix[criteriaComparison][i][j] = rates.shift();
+                    this.variantsMatrix[criteriaComparison][i][j] = mulArrayTo3(rates.shift());
                 }
             }
         }
         else{
             for(let i=0; i<this.criteriasMatrix.length; i++){
                 for(let j=i+1; j<this.criteriasMatrix.length; j++){
-                    this.criteriasMatrix[i][j] = rates.shift();
+                    this.criteriasMatrix[i][j] = mulArrayTo3(rates.shift());
                 }
             }
         }
@@ -267,27 +276,68 @@ class FuzzyAHP{
             obj[variant] = rates.shift();
         }
 
-        return {
+        this.rankingData = {
             criterias: this.criterias,
             criteriasChoiceCr: this.criteriasData.consistencyRatio,
             alternativesChoicesCrs: Object.values(this.variantsData.consistencyRatios),
             rank: obj
         }; 
+
+        return this.rankingData;
     }
 }
 
-module.exports = {
-    FAHP: FuzzyAHP
+class AHPList{
+    constructor(){
+        this.items = [];
+    }
+
+    add(...ahpInstances){
+        if(ahpInstances.length === 1) this.items.push(ahpInstances);
+        else{
+            ahpInstances.forEach(instance => {
+                this.items.push(instance);
+            })
+        }
+    }
+
+    getAll(){
+        return this.items;
+    }
 }
 
-/*
-const ahp = new FuzzyAHP(['W1', 'W2', 'W3'], ['K1', 'K2', 'K3']);
-ahp.makePairwiseComparisons([[-1,1,3],[-1,1,3],[-1,1,3]])
-ahp.makePairwiseComparisons([[-1,1,3],[-1,1,3],[-1,1,3]], 'K1');
-ahp.makePairwiseComparisons([[-1,1,3],[-1,1,3],[-1,1,3]], 'K2');
-ahp.makePairwiseComparisons([[-1,1,3],[-1,1,3],[-1,1,3]], 'K3');
-ahp.weightsAndCR();
+//module.exports = {
+//    FAHP: FuzzyAHP
+//}
 
-console.log(ahp);
-console.log(ahp.ranking());
-*/
+
+const ahp1 = new FuzzyAHP(['W1', 'W2', 'W3'], ['K1', 'K2', 'K3']);
+ahp1.makePairwiseComparisons([[-1,1,3],[-1,1,3],[-1,1,3]])
+ahp1.makePairwiseComparisons([[-1,1,3],[-1,1,3],[-1,1,3]], 'K1');
+ahp1.makePairwiseComparisons([[-1,1,3],[-1,1,3],[-1,1,3]], 'K2');
+ahp1.makePairwiseComparisons([[-1,1,3],[-1,1,3],[-1,1,3]], 'K3');
+ahp1.weightsAndCR();
+ahp1.ranking();
+
+const ahp2 = new FuzzyAHP(['W1', 'W2', 'W3'], ['K1', 'K2', 'K3']);
+ahp2.makePairwiseComparisons([[-1,1,3],[-1,1,3],[-1,1,3]])
+ahp2.makePairwiseComparisons([[-1,1,3],[-1,1,3],[-1,1,3]], 'K1');
+ahp2.makePairwiseComparisons([[-1,1,3],[-1,1,3],[-1,1,3]], 'K2');
+ahp2.makePairwiseComparisons([[-1,1,3],[-1,1,3],[-1,1,3]], 'K3');
+ahp2.weightsAndCR();
+ahp2.ranking();
+
+const ahp3 = new FuzzyAHP(['W1', 'W2', 'W3'], ['K1', 'K2', 'K3']);
+ahp3.makePairwiseComparisons([[-1,1,3],[-1,1,3],[-1,1,3]])
+ahp3.makePairwiseComparisons([[-1,1,3],[-1,1,3],[-1,1,3]], 'K1');
+ahp3.makePairwiseComparisons([[-1,1,3],[-1,1,3],[-1,1,3]], 'K2');
+ahp3.makePairwiseComparisons([[-1,1,3],[-1,1,3],[-1,1,3]], 'K3');
+ahp3.weightsAndCR();
+ahp3.ranking();
+// Oryginalne variants/criterias matrix obiektu nie są nigdy aktualizowane, więc warto
+// to zaimplementować w razie uśredniania macierzy
+
+const ahpList = new AHPList();
+ahpList.add(ahp1, ahp2, ahp3);
+
+console.log(ahpList);
